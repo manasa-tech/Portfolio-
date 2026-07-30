@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { client } from "./config/database";
-
+import githubRouter from "./routes/github";
 import testRouter from "./routes/test";
 import chatRoutes from "./routes/chat";
 
@@ -10,11 +10,18 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-app.use("/test", testRouter);
+app.use("/api/test", testRouter);
 app.use("/api/chat", chatRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Backend is running...");
